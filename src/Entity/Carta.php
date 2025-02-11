@@ -32,6 +32,11 @@ class Carta
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $fechaAdicion = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cartas')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Usuario $usuario = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -115,4 +120,16 @@ class Carta
 
         return $this;
     }
+
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    public function setUsuario(?Usuario $usuario): static
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
+    const RUTA_IMAGENES_CARTAS = __DIR__ . '/../../public/img/cartas/';
 }

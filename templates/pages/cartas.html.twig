@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block principal %}
+	<div class="container-fluid bg-primary hero-header mb-5">
+		<div class="container text-center">
+			<h1 class="display-4 text-white mb-3 animated slideInDown">Base de datos de cartas</h1>
+		</div>
+	</div>
+	<!-- Hero End -->
+
+
+	<div class="container mt-5">
+		<div class="row">
+			{% for carta in cartas %}
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 shadow">
+						<a href="{{ path('show_card', { id: carta.id }) }}">
+							<img src="{{ asset('img/cartas/' ~ carta.imagen) }}" class="card-img-top" alt="{{ carta.descripcion }}" title="{{ carta.descripcion }}">
+						</a>
+						<div class="card-body">
+							<h5 class="card-title">{{ carta.nombre }}</h5>
+							<p class="card-text">
+								<strong>Categoría:</strong>
+								{{ carta.categoria }}</p>
+							<p class="card-text">
+								<strong>Descripción:</strong>
+								{{ carta.descripcion }}</p>
+							<p class="card-text">
+								<strong>Precio:</strong>
+								{{ carta.precio|number_format(2, '.', ',') }}
+								€</p>
+							<p class="card-text">
+								<strong>Fecha de adición:</strong>
+								{{ carta.fechaAdicion|date('d-m-Y') }}
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block principal %}
+	<div class="container-fluid bg-primary hero-header mb-5">
+		<div class="container text-center">
+			<h1 class="display-4 text-white mb-3 animated slideInDown">Añadir carta</h1>
+		</div>
+	</div>
+
+	<div class="container-fluid py-5">
+		<div class="container">
+			{% if app.request.method == 'POST' %}
+				<div class="alert alert-{{ errores is empty ? 'info' : 'danger' }} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+					{% if errores is empty %}
+						<p>{{ mensaje }}</p>
+					{% else %}
+						<ul>
+							{% for error in errores %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+			{% endif %}
+
+			<form class="form-horizontal" action="{{ path('nueva') }}" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<label class="label-control">Imagen</label>
+					<input class="form-control-file" type="file" name="imagen" id="imagen">
+				</div>
+
+				<div class="form-group">
+					<label class="label-control">Nombre</label>
+					<input type="text" class="form-control" id="nombre" name="nombre" value="{{ app.request.get('nombre', '') }}">
+
+					<label class="label-control">Categoría</label>
+					<input type="text" class="form-control" id="categoria" name="categoria" value="{{ app.request.get('categoria', '') }}">
+
+					<label class="label-control">Precio</label>
+					<input type="number" class="form-control" id="precio" name="precio" step="0.01" value="{{ app.request.get('precio', '') }}">
+
+					<label class="label-control">Descripción</label>
+					<textarea class="form-control" name="descripcion">{{ app.request.get('descripcion', '') }}</textarea>
+
+					<button class="btn btn-lg btn-primary mt-3">ENVIAR</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

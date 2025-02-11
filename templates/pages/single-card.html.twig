@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block principal %}
+	<div class="container">
+		<div class="col-mb-2 md-2">
+			<div class="card shadow" style="width: fit-content; margin: auto;">
+				<img src="{{ asset('/img/cartas/' ~ carta.imagen) }}" class="card-img-top" alt="{{ carta.descripcion }}" style="max-width: 300px; aspect-ratio: 2.5 / 3.5; object-fit: cover; display: block; margin: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);" title="{{ carta.descripcion }}">
+				<div class="card-body" style="align-self: center;">
+					<h5 class="card-title">{{ carta.nombre }}</h5>
+					<p class="card-text">
+						<strong>Categoría:</strong>
+						{{ carta.categoria }}</p>
+					<p class="card-text">
+						<strong>Descripción:</strong>
+						{{ carta.descripcion }}</p>
+					<p class="card-text">
+						<strong>Precio:</strong>
+						{{ carta.precio|number_format(2) }}
+						€</p>
+					<p class="card-text">
+						<strong>Fecha de adición:</strong>
+						{{ carta.fechaAdicion|date('d-m-Y') }}</p>
+				</div>
+			</div>
+		</div>
+		<button onclick="window.history.back();" class="btn btn-primary m-4">Go Back</button>
+	</div>
+{% endblock %}

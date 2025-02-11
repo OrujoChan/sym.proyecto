@@ -1,0 +1,32 @@
+<!-- Navbar Start -->
+<div class="container-fluid sticky-top">
+	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-light p-0">
+			<a href="{{ path('cartas') }}" class="navbar-brand">
+				<h2 class="text-white">MagicDB</h2>
+			</a>
+			<button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<div class="navbar-nav ms-auto">
+					<a href="{{ path('cartas') }}" class="nav-item nav-link active">Home</a>
+					<a href="{{ path('nueva') }}" class="nav-item nav-link active">Añadir</a>
+
+
+					{# {% if app.user is null %}
+																<a href="{{ path('app_login') }}" class="nav-item nav-link">Login</a>
+																<a href="{{ path('register') }}" class="nav-item nav-link">Register</a>
+															{% else %}
+																<a href="{{ path('profile') }}" class="nav-item nav-link">Perfil</a>
+																<a href="{{ path('app_logout') }}" class="nav-item nav-link">
+																	Logout -
+																	{{ app.user.username }}
+																</a>
+															{% endif %} #}
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+<!-- Navbar End -->
