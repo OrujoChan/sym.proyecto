@@ -3,26 +3,31 @@
 namespace App\BLL;
 
 use App\Entity\Carta;
+use App\Entity\Usuario;
 use App\Repository\CartaRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+
 class CartaBLL extends BaseBLL
 {
     protected CartaRepository $cartaRepository;
-
+    private EntityManagerInterface $entityManager;
     public function __construct(
         EntityManagerInterface $em,
         ValidatorInterface $validator,
         RequestStack $requestStack,
         Security $security,
-        CartaRepository $cartaRepository
+        CartaRepository $cartaRepository,
+        EntityManagerInterface $entityManager
     ) {
         parent::__construct($em, $validator, $requestStack, $security, $cartaRepository);
         $this->cartaRepository = $cartaRepository;
+        $this->entityManager = $entityManager;
     }
 
     public function getCartasConOrdenacion(?string $ordenacion)
@@ -60,19 +65,25 @@ class CartaBLL extends BaseBLL
         ];
     }
 
-    public function nueva(array $data)
+    public function nueva(array $data): void
     {
+        $entityManager = $this->entityManager;
+
         $carta = new Carta();
         $carta->setNombre($data['nombre']);
         $carta->setDescripcion($data['descripcion']);
-        $carta->setImagen($data['imagen']);
         $carta->setCategoria($data['categoria']);
         $carta->setPrecio($data['precio']);
-        $fechaAdicion = \DateTime::createFromFormat('d/m/Y', $data['fechaAdicion']);
-        $carta->setFechaAdicion($fechaAdicion);
+        $carta->setImagen($data['imagen']);
+        $carta->setFechaAdicion(new \DateTime());
 
-        return $this->guardaValidando($carta);
+        $usuario = $entityManager->getReference(Usuario::class, $data['usuario']->getId());
+        $carta->setUsuario($usuario);
+
+        $entityManager->persist($carta);
+        $entityManager->flush();
     }
+
 
     public function getCartas()
     {

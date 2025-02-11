@@ -26,7 +26,7 @@ class CartaRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    // NOT USED
     /**
      * @return Carta[] Returns an array of Carta objects filtered by description and date range
      */

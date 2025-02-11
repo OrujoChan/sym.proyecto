@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
+
 {% block principal %}
-	<div class="container-fluid bg-primary hero-header mb-5">
+	<div class="container-fluid bg-success hero-header mb-5">
 		<div class="container text-center">
-			<h1 class="display-4 text-white mb-3 animated slideInDown">Base de datos de cartas</h1>
+			<h1 class="display-4 text-white mb-3 animated slideInDown">Mis Cartas</h1>
 		</div>
 	</div>
-	<!-- Hero End -->
-
 
 	<div class="container mt-5">
 		<div class="row">
@@ -20,14 +19,17 @@
 							<h5 class="card-title">{{ carta.nombre }}</h5>
 							<p class="card-text">
 								<strong>Categoría:</strong>
-								{{ carta.categoria }}</p>
+								{{ carta.categoria }}
+							</p>
 							<p class="card-text">
 								<strong>Descripción:</strong>
-								{{ carta.descripcion }}</p>
+								{{ carta.descripcion }}
+							</p>
 							<p class="card-text">
 								<strong>Precio:</strong>
 								{{ carta.precio|number_format(2, '.', ',') }}
-								€</p>
+								€
+							</p>
 							<p class="card-text">
 								<strong>Fecha de adición:</strong>
 								{{ carta.fechaAdicion|date('d-m-Y') }}
@@ -44,6 +46,10 @@
 							{% endif %}
 						</div>
 					</div>
+				</div>
+			{% else %}
+				<div class="col-12 text-center">
+					<p class="text-muted">No has creado ninguna carta aún.</p>
 				</div>
 			{% endfor %}
 		</div>

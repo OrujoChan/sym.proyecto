@@ -20,6 +20,16 @@
 					<p class="card-text">
 						<strong>Fecha de adición:</strong>
 						{{ carta.fechaAdicion|date('d-m-Y') }}</p>
+
+					{% if carta.usuario.id == app.user.id %}
+						<form method="post" action="{{ path('app_delete_card', { id: carta.id }) }}">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete_card_' ~ carta.id) }}">
+							<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
+								<i class="bi bi-trash"></i>
+								Eliminar
+							</button>
+						</form>
+					{% endif %}
 				</div>
 			</div>
 		</div>

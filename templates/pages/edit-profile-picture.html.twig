@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block principal %}
+	<h2>Change Profile Picture</h2>
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<button type="submit">Upload</button>
+	{{ form_end(form) }}
+{% endblock %}

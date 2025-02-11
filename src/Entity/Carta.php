@@ -32,8 +32,8 @@ class Carta
     #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $fechaAdicion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cartas')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(targetEntity: Usuario::class, inversedBy: 'cartas')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $usuario = null;
 
 

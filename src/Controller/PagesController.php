@@ -16,12 +16,18 @@ class PagesController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): RedirectResponse
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         return $this->redirectToRoute('cartas');
     }
 
     #[Route('/cartas', name: 'cartas')]
     public function cartas(CartaRepository $CartaRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $cartas = $CartaRepository->findAll(); // Renamed from $imagenes
 
         return $this->render('pages/cartas.html.twig', [
@@ -32,8 +38,18 @@ class PagesController extends AbstractController
     #[Route('/nueva', name: 'nueva', methods: ['GET', 'POST'])]
     public function nueva(Request $request, CartaBLL $cartaBLL): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $errores = [];
         $mensaje = null;
+
+        // Get the logged-in user
+        $usuario = $this->getUser();
+
+        if (!$usuario) {
+            throw $this->createAccessDeniedException('Debe estar autenticado para crear una carta.');
+        }
 
         if ($request->isMethod('POST')) {
             try {
@@ -42,8 +58,9 @@ class PagesController extends AbstractController
                     'descripcion' => trim($request->request->get('descripcion')),
                     'categoria' => trim($request->request->get('categoria')),
                     'precio' => floatval($request->request->get('precio')),
-                    'imagen' => null, // Image handling below
-                    'fechaAdicion' => date('d/m/Y'), // Today's date
+                    'imagen' => null,
+                    'fechaAdicion' => date('d/m/Y'),
+                    'usuario' => $usuario, // Pass the user
                 ];
 
                 // Handle file upload
@@ -69,15 +86,13 @@ class PagesController extends AbstractController
         ]);
     }
 
-    #[Route('/register', name: 'register')]
-    public function register(): Response
-    {
-        return $this->render('pages/register.html.twig');
-    }
 
     #[Route('/cartas/{id}', name: 'show_card')]
     public function show(CartaRepository $CartaRepository, int $id): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $carta = $CartaRepository->find($id); // Renamed from $imagen
 
         if (!$carta) {
